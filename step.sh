@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+# set -ex
 
 # If neither build target was selected
 if [[ "$should_build_android" != true && "$should_build_ios" != true ]]; then
@@ -15,6 +15,9 @@ if [ -z $package_directory ]; then
     package_directory="unity_packages"
 fi
 
+# Make the directory if it doesn't already exist
+mkdir -p $package_directory
+
 # Package paths for convenience
 unity_editor_package_path="${package_directory}/unity.pkg"
 ios_package_path="${package_directory}/ios.pkg"
@@ -29,7 +32,7 @@ fi
 
 # Download Unity Editor
 # If the Unity package isn't already in the root, download it
-if [ ! -f ./unity.pkg ]; then
+if [ ! -f $unity_editor_package_path ]; then
     url="${base_url}/MacEditorInstaller/Unity.pkg"
     echo "Downloading Unity Editor package from ${url}..."
     curl -o $unity_editor_package_path $url
@@ -37,7 +40,7 @@ fi
 
 # Download iOS Target Support
 # If we want to build iOS and the package isn't already in the root, download it
-if [[ "$should_build_ios" = true && ! -f ./ios.pkg ]]; then
+if [[ "$should_build_ios" = true && ! -f $ios_package_path ]]; then
     url="${base_url}/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor.pkg"
     echo "Downloading Unity iOS Target Support package from ${url}..."
     curl -o $ios_package_path $url
@@ -45,7 +48,7 @@ fi
 
 # Download Android Target Support
 # If we want to build Android and the package isn't already in the root, download it
-if [[ "$should_build_android" = true && ! -f ./android.pkg ]]; then
+if [[ "$should_build_android" = true && ! -f $android_package_path ]]; then
     url="${base_url}/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor.pkg"
     echo "Downloading Unity Android Target Support package from ${url}..."
     curl -o $android_package_path $url
