@@ -1,6 +1,10 @@
 #!/bin/bash
 set -ex
 
+if [ "$should_build_ios" != true ]; then
+
+
+fi
 echo "This is the value specified for the input 'example_step_input': ${example_step_input}"
 
 #

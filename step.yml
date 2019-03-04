@@ -41,10 +41,22 @@ toolkit:
     entry_file: step.sh
 
 inputs:
+  - installer_id:
+    opts:
+      title: Unity Installer ID
+      summary: The ID of the installer.
+      description: |
+        The installer ID can be found within the Component Installer URLs on the "What's new?" page for the Unity version you're trying to install. 
+        It should look like this: `https://download.unity3d.com/download_unity/a220877bc173/TargetSupportInstaller/...` where `a220877bc173` is the ID for v2018.3.6.
+        Example **What's new?** page: [What's new? - Unity 2018.3.6](https://unity3d.com/unity/whats-new/2018.3.6).
+      is_expand: true
+      is_required: true
+      value_options: []
+
   - should_build_ios: true
     opts:
       title: "Build iOS?"
-      summary: Enables iOS building
+      summary: Downloads and installs Unity iOS packages.
       description: |
         Like the summary says, it does iOS stuff!
       is_expand: false
@@ -54,7 +66,7 @@ inputs:
   - should_build_android: true
     opts:
       title: "Build Android?"
-      summary: Enables Android building
+      summary: Downloads and installs Unity Android packages.
       description: |
         Like the summary says, it does Android stuff!
       is_expand: false
