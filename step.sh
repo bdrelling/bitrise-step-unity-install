@@ -16,9 +16,9 @@ if [ -z $package_directory ]; then
 fi
 
 # Package paths for convenience
-unity_editor_package_path="{$package_directory}/unity.pkg"
-ios_package_path="{$package_directory}/ios.pkg"
-android_package_path="{$package_directory}/android.pkg"
+unity_editor_package_path="${package_directory}/unity.pkg"
+ios_package_path="${package_directory}/ios.pkg"
+android_package_path="${package_directory}/android.pkg"
 
 if [ ! -z $installer_id ]; then
     # If no Installer ID is specified, use the latest version
