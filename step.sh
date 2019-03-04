@@ -1,8 +1,8 @@
 #!/bin/bash
 set -ex
 
-# If neither build target is selected
-if [ $should_build_android != true && $should_build_ios != true ]; then
+# If neither build target was selected
+if [[ "$should_build_android" != true && "$should_build_ios" != true ]]; then
     # Technically the step ran successfully, but don't continue with Unity Editor download
     exit 0
 fi
@@ -14,22 +14,25 @@ else
     base_url="https://download.unity3d.com/download_unity/${installer_id}"
 fi
 
-# Check to see if the unity package is already in this directory
+# Download Unity Editor
+# If the Unity package isn't already in the root, download it
 if [ ! -f ./unity.pkg ]; then
     url="${base_url}/MacEditorInstaller/Unity.pkg"
     echo "Downloading Unity Editor package from ${url}..."
     curl -o ./unity.pkg $url
 fi
 
-# Check to see if the ios package is already in this directory
-if [ $should_build_ios = true && ! -f ./ios.pkg ]; then
+# Download iOS Target Support
+# If we want to build iOS and the package isn't already in the root, download it
+if [[ "$should_build_ios" = true && ! -f ./ios.pkg ]]; then
     url="${base_url}/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor.pkg"
     echo "Downloading Unity iOS Target Support package from ${url}..."
     curl -o ./ios.pkg $url
 fi
 
-# Check to see if the android package is already in this directory
-if [ $should_build_android = true && ! -f ./android.pkg ]; then
+# Download Android Target Support
+# If we want to build Android and the package isn't already in the root, download it
+if [[ "$should_build_android" = true && ! -f ./android.pkg ]]; then
     url="${base_url}/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor.pkg"
     echo "Downloading Unity Android Target Support package from ${url}..."
     curl -o ./ios.pkg $url
@@ -44,7 +47,7 @@ else
 fi
 
 # Install iOS Target Support
-if [ -f ./ios.pkg ]; then
+if [[ "$should_build_ios" = true && -f ./ios.pkg ]]; then
     sudo -S installer -package ./ios.pkg -target / -verbose
 elif [ $should_build_ios = true ]; then
     # If we made it here, that means we expected ios.pkg to download but didn't find it
@@ -52,7 +55,7 @@ elif [ $should_build_ios = true ]; then
 fi
 
 # Install Android Target Support
-if [ -f ./android.pkg ]; then
+if [[ "$should_build_android" = true && -f ./android.pkg ]]; then
     sudo -S installer -package ./android.pkg -target / -verbose
 elif [ $should_build_android = true ]; then
     # If we made it here, that means we expected android.pkg to download but didn't find it
