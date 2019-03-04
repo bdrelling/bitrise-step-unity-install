@@ -53,6 +53,18 @@ inputs:
       is_required: true
       value_options: [true, false]
 
+  - should_build_android: true
+    opts:
+      title: "Build Android?"
+      summary: Enables Android building
+      description: |
+        Like the summary says, it does iOS stuff!
+
+        Can be Markdown formatted text.
+      is_expand: true
+      is_required: true
+      value_options: [true, false]
+
 outputs:
   - EXAMPLE_STEP_OUTPUT:
     opts:
