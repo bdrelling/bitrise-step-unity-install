@@ -74,12 +74,21 @@ inputs:
       is_required: true
       value_options: [true, false]
 
-outputs:
-  - EXAMPLE_STEP_OUTPUT:
+  - package_directory: "."
     opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
+      title: "Package Directory"
+      summary: The directory the packages are downloaded to.
       description: |
-        Description of this output.
+        The directory the packages are downloaded to.
+        If left blank, this will use the project root.
+      is_expand: false
+      is_required: true
+      value_options: []
 
-        Can be Markdown formatted text.
+outputs:
+  - UNITY_PACKAGE_DIRECTORY:
+    opts:
+      title: "Unity Package Directory"
+      summary: The directory where the packages are stored.
+      description: |
+        The directory where the packages are stored.

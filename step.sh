@@ -7,6 +7,14 @@ if [[ "$should_build_android" != true && "$should_build_ios" != true ]]; then
     exit 0
 fi
 
+# Strip trailing / from package directory
+package_directory=${package_directory%/}
+
+# Package paths for convenience
+unity_package_path="{$package_directory}/unity.pkg"
+ios_package_path="{$package_directory}/ios.pkg"
+android_package_path="{$package_directory}/android.pkg"
+
 if [ ! -z $installer_id ]; then
     # If no Installer ID is specified, use the latest version
     base_url="https://download.unity3d.com/download_unity"
@@ -19,7 +27,7 @@ fi
 if [ ! -f ./unity.pkg ]; then
     url="${base_url}/MacEditorInstaller/Unity.pkg"
     echo "Downloading Unity Editor package from ${url}..."
-    curl -o ./unity.pkg $url
+    curl -o $unity_package_path $url
 fi
 
 # Download iOS Target Support
@@ -27,7 +35,7 @@ fi
 if [[ "$should_build_ios" = true && ! -f ./ios.pkg ]]; then
     url="${base_url}/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor.pkg"
     echo "Downloading Unity iOS Target Support package from ${url}..."
-    curl -o ./ios.pkg $url
+    curl -o $ios_package_path $url
 fi
 
 # Download Android Target Support
@@ -35,32 +43,35 @@ fi
 if [[ "$should_build_android" = true && ! -f ./android.pkg ]]; then
     url="${base_url}/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor.pkg"
     echo "Downloading Unity Android Target Support package from ${url}..."
-    curl -o ./ios.pkg $url
+    curl -o $android_package_path $url
 fi
 
 # Install Unity Editor
-if [ -f ./unity.pkg ]; then
-    sudo -S installer -package ./unity.pkg -target / -verbose
+if [ -f $unity_package_path ]; then
+    sudo -S installer -package $unity_package_path -target / -verbose
 else
     # If we made it here, the Unity Editor package didn't download, which is not good
     exit 1
 fi
 
 # Install iOS Target Support
-if [[ "$should_build_ios" = true && -f ./ios.pkg ]]; then
-    sudo -S installer -package ./ios.pkg -target / -verbose
+if [[ "$should_build_ios" = true && -f $ios_package_path ]]; then
+    sudo -S installer -package $ios_package_path -target / -verbose
 elif [ $should_build_ios = true ]; then
     # If we made it here, that means we expected ios.pkg to download but didn't find it
     exit 1
 fi
 
 # Install Android Target Support
-if [[ "$should_build_android" = true && -f ./android.pkg ]]; then
-    sudo -S installer -package ./android.pkg -target / -verbose
+if [[ "$should_build_android" = true && -f $android_package_path ]]; then
+    sudo -S installer -package $android_package_path -target / -verbose
 elif [ $should_build_android = true ]; then
     # If we made it here, that means we expected android.pkg to download but didn't find it
     exit 1
 fi
+
+# Export the package directory for usage in other steps (like caching)
+envman add --key UNITY_PACKAGE_DIRECTORY --value $package_directory
 
 exit 0
 
