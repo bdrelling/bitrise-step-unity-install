@@ -10,8 +10,13 @@ fi
 # Strip trailing / from package directory
 package_directory=${package_directory%/}
 
+# If no value is provided for package directory, set it to the default
+if [ -z $package_directory ]; then
+    package_directory="unity_packages"
+fi
+
 # Package paths for convenience
-unity_package_path="{$package_directory}/unity.pkg"
+unity_editor_package_path="{$package_directory}/unity.pkg"
 ios_package_path="{$package_directory}/ios.pkg"
 android_package_path="{$package_directory}/android.pkg"
 
@@ -27,7 +32,7 @@ fi
 if [ ! -f ./unity.pkg ]; then
     url="${base_url}/MacEditorInstaller/Unity.pkg"
     echo "Downloading Unity Editor package from ${url}..."
-    curl -o $unity_package_path $url
+    curl -o $unity_editor_package_path $url
 fi
 
 # Download iOS Target Support
@@ -47,8 +52,8 @@ if [[ "$should_build_android" = true && ! -f ./android.pkg ]]; then
 fi
 
 # Install Unity Editor
-if [ -f $unity_package_path ]; then
-    sudo -S installer -package $unity_package_path -target / -verbose
+if [ -f $unity_editor_package_path ]; then
+    sudo -S installer -package $unity_editor_package_path -target / -verbose
 else
     # If we made it here, the Unity Editor package didn't download, which is not good
     exit 1
@@ -70,8 +75,11 @@ elif [ $should_build_android = true ]; then
     exit 1
 fi
 
-# Export the package directory for usage in other steps (like caching)
+# Export the unity package paths for usage in other steps (like caching)
 envman add --key UNITY_PACKAGE_DIRECTORY --value $package_directory
+envman add --key UNITY_EDITOR_PACKAGE_PATH --value $unity_editor_package_path
+envman add --key UNIT_IOS_PACKAGE_PATH --value $ios_package_path
+envman add --key UNITY_ANDROID_PACKAGE_PATH --value $android_package_path
 
 exit 0
 
