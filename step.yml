@@ -47,9 +47,7 @@ inputs:
       summary: Enables iOS building
       description: |
         Like the summary says, it does iOS stuff!
-
-        Can be Markdown formatted text.
-      is_expand: true
+      is_expand: false
       is_required: true
       value_options: [true, false]
 
@@ -58,10 +56,8 @@ inputs:
       title: "Build Android?"
       summary: Enables Android building
       description: |
-        Like the summary says, it does iOS stuff!
-
-        Can be Markdown formatted text.
-      is_expand: true
+        Like the summary says, it does Android stuff!
+      is_expand: false
       is_required: true
       value_options: [true, false]
 
