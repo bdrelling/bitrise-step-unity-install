@@ -39,7 +39,9 @@ inputs:
         Downloads and installs Unity Android Target Support packages.
       is_expand: false
       is_required: true
-      value_options: ["true", "false"]
+      value_options:
+        - true
+        - false
 
   - should_build_android: true
     opts:
@@ -49,7 +51,9 @@ inputs:
         Downloads and installs Unity Android Target Support packages.
       is_expand: false
       is_required: true
-      value_options: ["true", "false"]
+      value_options:
+        - true
+        - false
 
   - package_directory: "unity_packages"
     opts:
@@ -61,27 +65,27 @@ inputs:
       is_required: true
 
 outputs:
-  - UNITY_PACKAGE_DIRECTORY:
+  - UNITY_PACKAGE_DIRECTORY: null
     opts:
-      title: "Unity Package Directory"
+      title: Unity Package Directory
       summary: The directory where the packages are stored.
       description: |
         The directory where the packages are stored.
-  - UNITY_EDITOR_PACKAGE_PATH:
+  - UNITY_EDITOR_PACKAGE_PATH: null
     opts:
-      title: "Unity Editor Package Path"
+      title: Unity Editor Package Path
       summary: The path to the Unity Editor package.
       description: |
         The path to the Unity Editor package.
-  - UNITY_IOS_PACKAGE_PATH:
+  - UNITY_IOS_PACKAGE_PATH: null
     opts:
-      title: "Unity iOS Target Support Package Path"
+      title: Unity iOS Target Support Package Path
       summary: The path to the Unity iOS Target Support package.
       description: |
         The path to the Unity iOS Target Support package.
-  - UNITY_ANDROID_PACKAGE_PATH:
+  - UNITY_ANDROID_PACKAGE_PATH: null
     opts:
-      title: "Unity Android Target Support Package Path"
+      title: Unity Android Target Support Package Path
       summary: The path to the Unity Android Target Support package.
       description: |
         The path to the Unity Android Target Support package.
