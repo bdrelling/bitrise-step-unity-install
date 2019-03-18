@@ -40,8 +40,8 @@ inputs:
       is_expand: false
       is_required: true
       value_options:
-        - true
-        - false
+        - "true"
+        - "false"
 
   - should_build_android: true
     opts:
@@ -52,8 +52,8 @@ inputs:
       is_expand: false
       is_required: true
       value_options:
-        - true
-        - false
+        - "true"
+        - "false"
 
   - package_directory: "unity_packages"
     opts:
